@@ -4,11 +4,11 @@ import os
 pygame.font.init()
 pygame.mixer.init()
 
-WIDTH, HEIGHT = 1200, 700
+WIDTH, HEIGHT = 1550, 800
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SpaceShip!")
 
-WHITE = (150, 130, 255)
+WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
@@ -35,14 +35,14 @@ def main():
 #BULLET_FIRE_SOUND = pygame.mixer.Sound('Assets/Gun+Silencer.mp3')
 BULLET_HIT_SOUND = pygame.mixer.Sound('Assets/Grenade+1.mp3')
 BULLET_FIRE_SOUND = pygame.mixer.Sound('Assets/Gun+Silencer.mp3')
-
+BACKGROUND_SOUND = pygame.mixer.Sound('Assets/background.mp3')
 HEALTH_FONT = pygame.font.SysFont('comicsans', 40)
 WINNER_FONT = pygame.font.SysFont('comicsans', 100)
 
-FPS = 60
+FPS = 120
 VEL = 5
 BULLET_VEL = 7
-MAX_BULLETS = 3
+MAX_BULLETS = 5
 SPACESHIP_WIDTH, SPACESHIP_HEIGHT = 110, 100
 
 YELLOW_HIT = pygame.USEREVENT + 1
@@ -61,7 +61,7 @@ RED_SPACESHIP = pygame.transform.rotate(pygame.transform.scale(
 SPACE = pygame.transform.scale(pygame.image.load(
     os.path.join('Assets', 'space.png')), (WIDTH, HEIGHT))
 
-
+BACKGROUND_SOUND.play()
 def draw_window(red, yellow, red_bullets, yellow_bullets, red_health, yellow_health):
     WIN.blit(SPACE, (0, 0))
     pygame.draw.rect(WIN, BLACK, BORDER)
@@ -83,7 +83,6 @@ def draw_window(red, yellow, red_bullets, yellow_bullets, red_health, yellow_hea
         pygame.draw.rect(WIN, YELLOW, bullet)
 
     pygame.display.update()
-
 
 def yellow_handle_movement(keys_pressed, yellow):
     if keys_pressed[pygame.K_a] and yellow.x - VEL > 0:  # LEFT
@@ -134,8 +133,8 @@ def draw_winner(text):
 
 
 def main():
-    red = pygame.Rect(700, 300, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
-    yellow = pygame.Rect(100, 300, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
+    red = pygame.Rect(1350, 350, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
+    yellow = pygame.Rect(100, 350, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
 
     red_bullets = []
     yellow_bullets = []
@@ -163,15 +162,15 @@ def main():
                     bullet = pygame.Rect(
                         red.x, red.y + red.height//2 - 2, 10, 5)
                     red_bullets.append(bullet)
-                    #BULLET_FIRE_SOUND.play()
+                    BULLET_FIRE_SOUND.play()
 
             if event.type == RED_HIT:
                 red_health -= 1
-                #BULLET_HIT_SOUND.play()
+                BULLET_HIT_SOUND.play()
 
             if event.type == YELLOW_HIT:
                 yellow_health -= 1
-                #BULLET_HIT_SOUND.play()
+                BULLET_HIT_SOUND.play()
 
         winner_text = ""
         if red_health <= 0:
@@ -193,8 +192,8 @@ def main():
         draw_window(red, yellow, red_bullets, yellow_bullets,
                     red_health, yellow_health)
 
-    main()
+main()
 
 
-if __name__ == "__main__":
-    main()
+
+
