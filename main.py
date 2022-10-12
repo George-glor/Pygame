@@ -148,7 +148,7 @@ def main():
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                run = True
                 pygame.quit()
 
             if event.type == pygame.KEYDOWN:
@@ -192,7 +192,26 @@ def main():
         draw_window(red, yellow, red_bullets, yellow_bullets,
                     red_health, yellow_health)
 
-main()
+def main_menu():
+    title_font = pygame.font.SysFont("comicsans", 70)
+    run = True
+    while run:
+        WIN.blit(SPACE, (0,0))
+        title_label = title_font.render(("Press the mouse to begin or press E to exit..."), 1, (255,255,255))
+        WIN.blit(title_label, (WIDTH/2 - title_label.get_width()/2, 350))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:
+                    exit()
+            if event.type == pygame.QUIT:
+                run =  True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                main()
+    pygame.quit()
+
+main_menu()
+
 
 
 
